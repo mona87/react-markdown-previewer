@@ -1,0 +1,73 @@
+class App extends React.Component {
+  constructor() {
+    super();
+    // default text
+    this.state = {
+      value: `
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+### Another deeper heading
+ 
+Paragraphs are separated
+by a blank line.
+
+Leave 2 spaces at the end of a line to do a  
+line break
+
+Text attributes *italic*, **bold**, 
+\`monospace\`, ~~strikethrough~~ .
+
+Shopping list:
+
+  * apples
+  * oranges
+  * pears
+
+Numbered list:
+
+  1. apples
+  2. oranges
+  3. pears
+
+
+`
+    };
+  }
+  handleChange(e) {
+    // update state with new value
+    this.setState({ value: e.target.value });
+  }
+  markUp(val) {
+    // convert text to markup and return val
+    var rawMarkup = marked(val, { sanitize: true });
+    return rawMarkup;
+  }
+  render() {
+    return (
+     <div>
+      <h1 style={{textAlign: 'center'}}>React Markdown Previewer</h1>
+      <div style={{display: 'flex'}}>
+        <textarea
+          style={{ width: "500px", height:'500px' }}
+          rows="22"
+          type="text"
+          value={this.state.value}
+          onChange={::this.handleChange}
+        />
+        {/* set html to raw markup */}
+        <span
+          style={{marginLeft: '40px'}}
+          dangerouslySetInnerHTML={{ __html: this.markUp(this.state.value) }}
+        />
+      </div>
+     </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.querySelector("#app"));
